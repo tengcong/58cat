@@ -14,7 +14,7 @@ class PageHandler
     end
 
     def key
-      'key=%E7%8C%AB&final=1'
+      'key=%E7%8C%AB'
     end
 
     def base_path
