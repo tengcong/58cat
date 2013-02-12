@@ -1,5 +1,11 @@
+#encoding: utf-8
 require 'gmail'
+
 class Mailer
+  EMAIL_LIST = [
+    'congteng45@gmail.com',
+    'lixiaoyang1026@gmail.com'
+  ]
   class << self
     def greate_gmail
       @gmail ||= Gmail.new('58catinfo@gmail.com', '58cat123')
@@ -7,7 +13,7 @@ class Mailer
 
     def send_mail(subt, html_body)
       greate_gmail.deliver do
-        to 'congteng45@gmail.com'
+        to EMAIL_LIST
         subject subt
         html_part do
           content_type 'text/html; charset=utf-8'
@@ -18,7 +24,7 @@ class Mailer
 
     def send_news(models)
       unless models.empty?
-        send_mail('new info about cats on 58', models.map{|m|
+        send_mail('58同城最新猫猫领养信息提示', models.map{|m|
           """
               <a href='#{m.url}'>#{m.title}<a><br>
               <img src='#{m.pictures.first}'></img>
