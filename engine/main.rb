@@ -9,13 +9,16 @@ require_relative 'persistenter'
 module Main
   extend self
 
-  def run
+  def before_filter
     puts 'start parse index ...'
-    hash_set = PageHandler.get_page_url(1..3).map do |url|
-      IndexHandler.new(url).catch
-    end
+  end
 
-    models = hash_set.flatten.map do |info_hash|
+  def after_filter
+    puts 'done !'
+  end
+
+  def construct_model_arr_from hash_set
+    models_arr = hash_set.flatten.map do |info_hash|
       model = DetailHandler.new(info_hash[:url]).catch
       model.location = info_hash[:location]
       model.title = info_hash[:title]
@@ -23,8 +26,23 @@ module Main
       model.url = info_hash[:url]
       model
     end
+    models_arr
+  end
 
-    Builder.new(models).build
+  def get_hash_set_of_pre_pages(page_range)
+    PageHandler.get_page_url(page_range).map do |url|
+      IndexHandler.new(url).catch
+    end
+  end
 
+  def run
+    before_filter
+    models = construct_model_arr_from(
+      get_hash_set_of_pre_pages(1..3)
+    )
+
+    html = Builder.new(models).build
+    after_filter
+    html
   end
 end

@@ -25,6 +25,7 @@ configure do
 end
 
 get '/' do
+  puts file_name
   File.open(views_path + file_name, 'r').read
 end
 
