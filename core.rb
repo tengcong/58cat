@@ -2,30 +2,27 @@ require 'sinatra'
 require 'rufus/scheduler'
 require_relative 'engine/main'
 
-
 def generate_views
-  html_content = Main.run
-  Persistenter.persistent(views_path, file_name, html_content)
+  Main.run
 end
 
-def file_name
-  Time.now.strftime('%Y-%m-%d').to_s + '.html'
+configure do
+  generate_views
+  scheduler = Rufus::Scheduler.start_new
+  scheduler.every '30m' do
+    generate_views
+  end
 end
 
 def views_path
   File.dirname(__FILE__) + '/views/'
 end
 
-configure do
-  generate_views
-  scheduler = Rufus::Scheduler.start_new
-  scheduler.every '3h' do
-    generate_views
-  end
+def file_name
+  Time.now.strftime('%Y-%m-%d').to_s + '.html'
 end
 
 get '/' do
-  puts file_name
   File.open(views_path + file_name, 'r').read
 end
 
