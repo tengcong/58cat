@@ -33,6 +33,7 @@ class Mailer
           body html_body
         end
       end
+      puts "sended emails to #{email_lists}"
     end
 
     def send_news(models)
