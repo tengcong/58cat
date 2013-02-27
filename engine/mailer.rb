@@ -33,7 +33,7 @@ class Mailer
           body html_body
         end
       end
-      puts "sended emails to #{email_lists}"
+      puts "sended emails to #{email_lists} nwo is #{Time.now.utc}"
     end
 
     def send_news(models)
