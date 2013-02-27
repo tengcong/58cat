@@ -4,3 +4,4 @@ gem "sinatra"
 gem "rufus-scheduler"
 gem 'nokogiri'
 gem 'gmail'
+gem 'haml'

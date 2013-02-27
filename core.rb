@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'rufus/scheduler'
 require_relative 'engine/main'
+require 'haml'
 
 def generate_views
   Main.run
@@ -26,3 +27,18 @@ get '/' do
   File.open(views_path + file_name, 'r').read
 end
 
+get '/emails' do
+  haml :emails
+end
+
+post '/add_email' do
+  email = params[:email]
+  Mailer.add_email_lists(email)
+  redirect to('/emails')
+end
+
+post '/remove_email' do
+  email = params[:email]
+  Mailer.remove_email(email)
+  redirect to('/emails')
+end

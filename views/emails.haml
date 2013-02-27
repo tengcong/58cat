@@ -1,0 +1,16 @@
+%ul
+  -Mailer.email_lists.each do |email|
+    %li= email
+%hr
+
+add email: <br>
+%form{:action => '/add_email', :method => 'post'}
+  %input{:name => "email"}
+  %input{:type => "submit", :value => "add"}
+
+%hr
+
+remove email: <br>
+%form{:action => '/remove_email', :method => 'post'}
+  %input{:name => "email"}
+  %input{:type => "submit", :value => "remove"}

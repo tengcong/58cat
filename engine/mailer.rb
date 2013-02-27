@@ -2,18 +2,31 @@
 require 'gmail'
 
 class Mailer
-  EMAIL_LIST = [
+  @@email_lists = [
     'congteng45@gmail.com',
     'lixiaoyang1026@gmail.com'
   ]
   class << self
+
+    def email_lists
+      @@email_lists
+    end
+
+    def add_email_lists email
+      @@email_lists << email
+    end
+
+    def remove_email email
+      @@email_lists.delete(email)
+    end
+
     def greate_gmail
       @gmail ||= Gmail.new('58catinfo@gmail.com', '58cat123')
     end
 
     def send_mail(subt, html_body)
       greate_gmail.deliver do
-        to EMAIL_LIST
+        to email_lists
         subject subt
         html_part do
           content_type 'text/html; charset=utf-8'
