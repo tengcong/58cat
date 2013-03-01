@@ -10,7 +10,7 @@ end
 configure do
   generate_views
   scheduler = Rufus::Scheduler.start_new
-  scheduler.every '30m' do
+  scheduler.every '10m' do
     generate_views
   end
 end
